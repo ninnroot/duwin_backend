@@ -1,7 +1,15 @@
 import graphene
 from core.schemas import Query as q
+from core.mutations import Mutation as m
 
-class Query(q,graphene.ObjectType):
+
+class Query(q, graphene.ObjectType):
     pass
 
-schema = graphene.Schema(query=Query)
+
+class Mutation(m, graphene.ObjectType):
+    pass
+
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

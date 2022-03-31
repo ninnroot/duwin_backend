@@ -17,7 +17,8 @@ banned_fields = [
     "ImageField",
     "ForeignKey",
     "FileField",
-    "ManyToManyField"
+    "ManyToManyField",
+    "OneToOneField"
 ]
 
 
@@ -27,6 +28,7 @@ class BaseType(DjangoObjectType):
 
     @classmethod
     def resolve(cls, root, info, **kwargs):
+
         fields = []
         for i in cls._meta.model._meta.get_fields():
             if i.get_internal_type() not in banned_fields:

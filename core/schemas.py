@@ -3,7 +3,7 @@ from .models import *
 from duwin_backend.schemas import BaseType
 
 
-class UserType(BaseType):
+class UserQuery(BaseType):
     """
     The User object.
     """
@@ -12,7 +12,7 @@ class UserType(BaseType):
         fields = "__all__"
 
 
-class AuthorType(BaseType):
+class AuthorQuery(BaseType):
     """
     This represents an Author object.
     """
@@ -22,7 +22,7 @@ class AuthorType(BaseType):
         fields = "__all__"
 
 
-class BookType(BaseType):
+class BookQuery(BaseType):
     """
    This is the most fundamental model in the API, representing a Book object.
    A book can have many Authors, can belong to many Genres.
@@ -33,7 +33,7 @@ class BookType(BaseType):
         fields = "__all__"
 
 
-class GenreType(BaseType):
+class GenreQuery(BaseType):
     """
     The Genre object.
     """
@@ -43,7 +43,7 @@ class GenreType(BaseType):
         fields = "__all__"
 
 
-class LinkType(BaseType):
+class LinkQuery(BaseType):
     """
     This is primarily made to store download sources (maybe from different domains,
     maybe different file types) of the Books.
@@ -54,7 +54,7 @@ class LinkType(BaseType):
         fields = "__all__"
 
 
-class BookAuthorType(BaseType):
+class BookAuthorQuery(BaseType):
     """
     A bridge table for Books and Authors.
     """
@@ -63,7 +63,7 @@ class BookAuthorType(BaseType):
         fields = "__all__"
 
 
-class BookGenreType(BaseType):
+class BookGenreQuery(BaseType):
     """
     A bridge table for Books and Genres.
     """
@@ -72,7 +72,7 @@ class BookGenreType(BaseType):
         fields = "__all__"
 
 
-class BookUserType(BaseType):
+class BookUserQuery(BaseType):
     """
     A bridge table for Books and Users. A User can add many Books to their
     Reading List or Favourites, and a Book can also belong to many Users'
@@ -85,7 +85,7 @@ class BookUserType(BaseType):
         fields = "__all__"
 
 
-class BookLinkType(BaseType):
+class BookLinkQuery(BaseType):
     """
     A bridge table for Books and Links, for downloading from multiple sources.
     """
@@ -96,15 +96,15 @@ class BookLinkType(BaseType):
 
 # this is just like listing url endpoints.
 fields = {
-    "users": {"graphene":graphene.List, "type": UserType},
-    "authors": {"graphene": graphene.List, "type": AuthorType},
-    "books": {"graphene": graphene.List, "type": BookType},
-    "genres": {"graphene": graphene.List, "type": GenreType},
-    "links": {"graphene": graphene.List, "type": LinkType},
-    "bookauthors": {"graphene": graphene.List, "type": BookAuthorType},
-    "bookgenres": {"graphene": graphene.List, "type": BookGenreType},
-    "bookusers": {"graphene": graphene.List, "type": BookUserType},
-    "booklinks": {"graphene": graphene.List, "type": BookLinkType}
+    "users": {"graphene":graphene.List, "type": UserQuery},
+    "authors": {"graphene": graphene.List, "type": AuthorQuery},
+    "books": {"graphene": graphene.List, "type": BookQuery},
+    "genres": {"graphene": graphene.List, "type": GenreQuery},
+    "links": {"graphene": graphene.List, "type": LinkQuery},
+    "bookauthors": {"graphene": graphene.List, "type": BookAuthorQuery},
+    "bookgenres": {"graphene": graphene.List, "type": BookGenreQuery},
+    "bookusers": {"graphene": graphene.List, "type": BookUserQuery},
+    "booklinks": {"graphene": graphene.List, "type": BookLinkQuery}
 }
 
 

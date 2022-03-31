@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 from decouple import config
 import os
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -27,7 +30,7 @@ SECRET_KEY = config("SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "graphene_django",
+    "rest_framework",
+    "rest_framework_simplejwt",
     "core",
     "django_cleanup.apps.CleanupConfig"
 ]
@@ -50,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "duwin_backend.auth.JWTAuthMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -131,4 +137,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Auth related matters
 
 AUTH_USER_MODEL = "core.User"
+AUTHENTICATION_BACKENDS = [
+    "duwin_backend.auth.JWTBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+# simple_jwt settings
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+    "SIGNING_KEY": config("JWT")
+}
+
 

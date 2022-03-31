@@ -18,8 +18,10 @@ from django.urls import path
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
 from .main import schema
+from .views import SignIn
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("api/duwin", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema)))
+    path("api/duwin/graphql", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    path("api/duwin/login", SignIn.as_view(), name="sign_in")
 ]

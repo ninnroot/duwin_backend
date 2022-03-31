@@ -10,6 +10,12 @@ from django.db import models
 class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(unique=True)
+    ms_id = models.CharField(max_length=512,unique=True)
+    role = models.CharField(
+        max_length=8,
+        # choices=(("SDM", "Super-admin"), ("ADM", "Admin"), ("USR", "User")),
+        default="USR"
+    )
     date_joined = models.DateTimeField(default=timezone.now())
 
     USERNAME_FIELD = "email"
@@ -79,7 +85,7 @@ class BookUser(BaseModel):
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    condition = models.CharField(max_length=32, choices=(("read", "read"), ("fav", "fav")),
+    condition = models.CharField(max_length=32, #choices=(("read", "read"), ("fav", "fav")),
                                  help_text="\"read\" to add to the user's Reading List, "
                                            "and \"fav\" for their Favourites")
 
