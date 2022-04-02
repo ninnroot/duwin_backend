@@ -8,6 +8,9 @@ from django.db import models
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """
+        The User object.
+    """
 
     email = models.EmailField(unique=True)
     ms_id = models.CharField(max_length=512,unique=True)
@@ -27,6 +30,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Author(BaseModel):
+    """
+        This represents an Author object.
+    """
 
     name = models.CharField(max_length=512,
                             help_text="The author's name.")
@@ -39,6 +45,10 @@ class Author(BaseModel):
 
 
 class Book(BaseModel):
+    """
+       This is the most fundamental model in the API, representing a Book object.
+       A book can have many Authors, can belong to many Genres.
+    """
 
     title = models.CharField(max_length=512,
                              help_text="The title of the book.")
@@ -53,6 +63,9 @@ class Book(BaseModel):
 
 
 class Genre(BaseModel):
+    """
+        The Genre object.
+    """
 
     name = models.CharField(max_length=512,
                             help_text="The name of the genre.")
@@ -62,6 +75,10 @@ class Genre(BaseModel):
 
 
 class Link(BaseModel):
+    """
+        This is primarily made to store download sources (maybe from different domains,
+        maybe different file types) of the Books.
+    """
 
     name = models.CharField(max_length=512,
                             help_text="The name of the link.")
@@ -70,18 +87,30 @@ class Link(BaseModel):
 
 
 class BookAuthor(BaseModel):
+    """
+        A bridge table for Books and Authors.
+    """
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
 class BookGenre(BaseModel):
+    """
+        A bridge table for Books and Genres.
+    """
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
 
 
 class BookUser(BaseModel):
+    """
+        A bridge table for Books and Users. A User can add many Books to their
+        Reading List or Favourites, and a Book can also belong to many Users'
+        Reading Lists and Favourites. The "condition" parameter must be defined
+        to specify whether to add to Reading List or Favourites.
+    """
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,6 +120,9 @@ class BookUser(BaseModel):
 
 
 class BookLink(BaseModel):
+    """
+        A bridge table for Books and Links, for downloading from multiple sources.
+    """
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     link = models.ForeignKey(Link, on_delete=models.CASCADE)

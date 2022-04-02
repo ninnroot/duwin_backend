@@ -2,7 +2,6 @@ from duwin_backend.serializers import BaseSerializer
 
 from django.apps import apps
 
-models = apps.get_app_config("core").get_models()
 
 serializers = {
     f"{i.__name__}":
@@ -15,7 +14,7 @@ serializers = {
                     "fields": "__all__"
                 })
             }
-        ) for i in models
+        ) for i in apps.get_app_config("core").get_models()
 }
 
 

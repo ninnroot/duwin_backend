@@ -3,21 +3,20 @@ from django.apps import apps
 from .serializers import serializers
 import graphene
 
-models = apps.get_app_config("core").get_models()
-
-mutations = {
-    f"{i.__name__}":
+Mutation = type("Mutation", (graphene.ObjectType,), {
+    i.query_name: i.Field() for i in [
         type(
-            f"{i.__name__}Mutation",
+            f"{j.__name__}Mutation",
             (BaseMutation, ),
             {
                 "Meta": type("Meta", (), {
-                    "serializer_class": serializers[f"{i.__name__}"]
-                })
+                    "serializer_class": serializers[f"{j.__name__}"]
+                }),
+                "query_name": f"{j.__name__.lower()}s"
             }
-        ) for i in models
-}
+        ) for j in apps.get_app_config("core").get_models()
 
-Mutation = type("Mutation", (graphene.ObjectType,), {
-    f"{i.lower()}s": mutations[i].Field() for i in mutations
+    ]
 })
+
+
