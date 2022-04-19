@@ -169,3 +169,5 @@ cython_debug/
 # custom additions
 cert.pem
 key.pem
+
+core/migrations
