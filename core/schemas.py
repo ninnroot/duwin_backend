@@ -8,9 +8,9 @@ Query = type("Query", (graphene.ObjectType,), {
         i, resolver=i.resolve, **i.get_filter_fields()
     ) for i in [
         type(f"{j.__name__}Query", (BaseType,), {
-            "Meta": type("Meta", (), {"model": j, "fields": "__all__"}),
+            "Meta": type("Meta", (), {"model": j, "exclude": j.excluded_fields}),
             "__doc__": j.__doc__,
-            "query_name": f"{j.__name__.lower()}s"
+            "query_name": f"{j.__name__.lower()}s",
         }) for j in apps.get_app_config("core").get_models()
     ]
 })

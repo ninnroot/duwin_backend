@@ -15,7 +15,6 @@ model_to_graphene = {
 
 banned_fields = [
     "ImageField",
-    "ForeignKey",
     "FileField",
     "ManyToManyField",
     "OneToOneField"
@@ -28,10 +27,11 @@ class BaseType(DjangoObjectType):
 
     @classmethod
     def resolve(cls, root, info, **kwargs):
-
         fields = []
         for i in cls._meta.model._meta.get_fields():
-            if i.get_internal_type() not in banned_fields:
+            if i.get_internal_type() == "ForeignKey":
+                fields.append(i.name+"__id")
+            elif i.get_internal_type() not in banned_fields:
                 fields.append(i.name)
                 for j in model_to_graphene[i.get_internal_type()]["operators"]:
                     fields.append(f"{i.name}__{j}")
@@ -41,7 +41,9 @@ class BaseType(DjangoObjectType):
             if i is not None and i in fields:
                 filters[i] = kwargs[i]
 
-        return cls._meta.model.objects.filter(**filters).all()
+        return cls._meta.model.objects.filter(**filters)\
+            .prefetch_related(*cls._meta.model.related_fields)\
+            .all()
 
     @classmethod
     def get_filter_fields(cls) -> dict:
@@ -50,7 +52,10 @@ class BaseType(DjangoObjectType):
         for i in cls._meta.model._meta.get_fields():
             t = i.get_internal_type()
 
-            if t not in banned_fields:
+            if t == "ForeignKey":
+                dic[f"{i.related_model.__name__.lower()}__id"] = graphene.Argument(graphene.Int, default_value=None)
+
+            if t not in banned_fields and t != "ForeignKey":
                 dic_result = model_to_graphene[t]
                 dic[i.name] = graphene.Argument(dic_result["type"], default_value=None)
 

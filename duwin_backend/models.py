@@ -8,6 +8,12 @@ class BaseModel(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True,
                                       help_text="Last edited datetime of this object.")
 
+    related_fields = []
+    excluded_fields = ()
+
+
+
+
     class Meta:
         abstract = True
 

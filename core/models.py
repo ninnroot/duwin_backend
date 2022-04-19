@@ -12,18 +12,27 @@ class User(AbstractBaseUser, PermissionsMixin):
         The User object.
     """
 
-    email = models.EmailField(unique=True)
-    ms_id = models.CharField(max_length=512,unique=True)
+    email = models.EmailField(unique=True,
+                              help_text="The user's email address ending in @teachersucenter.com")
+    ms_id = models.CharField(max_length=512,unique=True,
+                             help_text="The object id of the user object in the Azure Active Directory")
     role = models.CharField(
         max_length=8,
         # choices=(("SDM", "Super-admin"), ("ADM", "Admin"), ("USR", "User")),
-        default="USR"
+        default="USR",
+        help_text="The role of the user. There are three roles, namely: SDM, ADM and USR. You can read more in the docs."
     )
-    date_joined = models.DateTimeField(default=timezone.now())
+    date_joined = models.DateTimeField(default=timezone.now(),
+                                       help_text="The date the user joined Duwin.")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
+
+    related_fields = []
+    excluded_fields = ("last_login", "is_superuser", "bookuser_set",)
+
+
 
     def __str__(self):
         return f"{self.email}-{self.id}"
@@ -43,6 +52,8 @@ class Author(BaseModel):
                              help_text="The author's date of death. Null if the author is still alive.")
     description = models.TextField(help_text="The author's description. Saved in md format.")
 
+    excluded_fields = ("bookauthor_set",)
+
 
 class Book(BaseModel):
     """
@@ -59,7 +70,9 @@ class Book(BaseModel):
     long_description = models.TextField(help_text="A longer, more descriptive description. Saved in md format.")
     cover = models.ImageField(default="book_covers/default.jpg", upload_to="book_covers",
                               help_text="The cover image of the book.")
-    length = models.IntegerField(help_text="The page count of the book.")
+    length = models.IntegerField(help_text="The page count of the book.", null=True, default=None)
+
+    excluded_fields = ("bookuser_set", "bookauthor_set", "bookgenre_set", "booklink_set")
 
 
 class Genre(BaseModel):
@@ -73,6 +86,8 @@ class Genre(BaseModel):
     cover = models.ImageField(default="genre_covers/default.jpg", upload_to="genre_covers",
                               help_text="The genre's cover image.")
 
+    excluded_fields = ("bookgenre_set",)
+
 
 class Link(BaseModel):
     """
@@ -84,6 +99,8 @@ class Link(BaseModel):
                             help_text="The name of the link.")
     url = models.URLField(max_length=512,
                           help_text="The url, yea, pretty self-explanatory.")
+
+    excluded_fields = ("booklink_set",)
 
 
 class BookAuthor(BaseModel):
