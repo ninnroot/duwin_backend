@@ -52,6 +52,9 @@ class SignIn(APIView):
             user.save()
 
         access = RefreshToken.for_user(user).access_token
+        access["userId"] = user.id
+        access["role"] = user.role
+
         return Response({"access": str(access)}, status=status.HTTP_200_OK)
 
 
