@@ -1,0 +1,101 @@
+schema {
+  query: Query
+}
+
+type AuthorQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  cover: String!
+  birth: Date!
+  death: Date
+  description: String!
+}
+
+type BookAuthorQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  book: BookQuery!
+  author: AuthorQuery!
+}
+
+type BookGenreQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  book: BookQuery!
+  genre: GenreQuery!
+}
+
+type BookLinkQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  book: BookQuery!
+  link: LinkQuery!
+}
+
+type BookQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  publishedDate: Date
+  shortDescription: String!
+  longDescription: String!
+  cover: String!
+  length: Int
+}
+
+type BookUserQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  book: BookQuery!
+  user: UserQuery!
+  condition: String!
+}
+
+scalar Date
+
+scalar DateTime
+
+type GenreQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  tagline: String!
+  cover: String!
+}
+
+type LinkQuery {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  url: String!
+}
+
+type Query {
+  users(logentry_Id: Int, bookuser_Id: Int, id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, password: String, password_Icontains: String, lastLogin: DateTime, lastLogin_Lt: DateTime, lastLogin_Gt: DateTime, lastLogin_Lte: DateTime, lastLogin_Gte: DateTime, isSuperuser: Boolean, email: String, email_Icontains: String, msId: String, msId_Icontains: String, role: String, role_Icontains: String, dateJoined: DateTime, dateJoined_Lt: DateTime, dateJoined_Gt: DateTime, dateJoined_Lte: DateTime, dateJoined_Gte: DateTime): [UserQuery]
+  authors(bookauthor_Id: Int, id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, name: String, name_Icontains: String, birth: Date, birth_Lt: Date, birth_Gt: Date, birth_Lte: Date, birth_Gte: Date, death: Date, death_Lt: Date, death_Gt: Date, death_Lte: Date, death_Gte: Date, description_Icontains: String): [AuthorQuery]
+  books(bookauthor_Id: Int, bookgenre_Id: Int, bookuser_Id: Int, booklink_Id: Int, id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, title: String, title_Icontains: String, publishedDate: Date, publishedDate_Lt: Date, publishedDate_Gt: Date, publishedDate_Lte: Date, publishedDate_Gte: Date, shortDescription: String, shortDescription_Icontains: String, longDescription: String, longDescription_Icontains: String, length: Int, length_Lt: Int, length_Gt: Int, length_Lte: Int, length_Gte: Int): [BookQuery]
+  genres(bookgenre_Id: Int, id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, name: String, name_Icontains: String, tagline: String, tagline_Icontains: String): [GenreQuery]
+  links(booklink_Id: Int, id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, name: String, name_Icontains: String, url: String, url_Icontains: String): [LinkQuery]
+  bookauthors(id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, book_Id: Int, author_Id: Int): [BookAuthorQuery]
+  bookgenres(id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, book_Id: Int, genre_Id: Int): [BookGenreQuery]
+  bookusers(id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, book_Id: Int, user_Id: Int, condition: String, condition_Icontains: String): [BookUserQuery]
+  booklinks(id: Int, id_Lt: Int, id_Gt: Int, id_Lte: Int, id_Gte: Int, createdAt: DateTime, createdAt_Lt: DateTime, createdAt_Gt: DateTime, createdAt_Lte: DateTime, createdAt_Gte: DateTime, updatedAt: DateTime, updatedAt_Lt: DateTime, updatedAt_Gt: DateTime, updatedAt_Lte: DateTime, updatedAt_Gte: DateTime, book_Id: Int, link_Id: Int): [BookLinkQuery]
+}
+
+type UserQuery {
+  id: ID!
+  password: String!
+  email: String!
+  msId: String!
+  role: String!
+  dateJoined: DateTime!
+}

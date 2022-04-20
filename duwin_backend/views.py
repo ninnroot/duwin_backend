@@ -37,14 +37,13 @@ class SignIn(APIView):
                 {"error": "A Microsoft identity token must be provided"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        res = request.get(
+        res = requests.get(
             "https://graph.microsoft.com/v1.0/me",
             headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
             )
 
-        if res.status not in range(199,300):
-            return Response({"MS_error": res.json()}, status=res.status)
+        if res.status_code not in range(199,300):
+            return Response({"MS_error": res.json()}, status=res.status_code)
 
         res = res.json()
         user = User.objects.filter(ms_id=res["id"]).first()
