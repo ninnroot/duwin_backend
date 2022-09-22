@@ -1,3 +1,8 @@
+# WARNING
+# this is written as an experiment and should probably never put into practice. 
+# Such a piece of code would be very difficult to read and hard to maintain in a real-world scenario.
+# (quite flexible though if you know enough Python and Django)
+
 import graphene
 from duwin_backend.schemas import BaseType
 from django.apps import apps
